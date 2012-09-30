@@ -39,8 +39,10 @@ mog.js search for markdown files and directories in $HOME env var by default
 You can (and in major cases you must) set your desired mog path with MOG env
 var:
 
-    $ MOG=~/Desktop/doc PORT=7001 node app.js
-    $ MOG=~/Desktop/TODO PORT=7002 node app.js
+    $ MOG=~/Desktop/doc/ PORT=7001 node app.js &
+    $ MOG=~/Desktop/TODO/ PORT=7002 node app.js &
+
+**NOTE:** MOG paths must finish in backslash ('/')
 
 # ui
 

@@ -5,6 +5,7 @@ var express = require('express')
   , doc = require('./lib/doc')
   , file = require('./lib/file');
 
+var MOG_PATH = process.env.MOG || process.env.HOME;
 var app = express();
 
 app.configure(function(){
@@ -40,7 +41,7 @@ app.get('/', function (req, res) {
 */
 app.get('/read/*', function (req, res) {
   var urlPath = req.params[0]
-    , filePath = (process.env.MOG || process.env.HOME) + urlPath + '.md';
+    , filePath = MOG_PATH + urlPath + '.md';
 
   if (path.basename(filePath) === '.md') {
     file.walk(path.dirname(filePath), {
@@ -81,7 +82,7 @@ app.get('/read/*', function (req, res) {
 app.get('/update/*', function (req, res) {
   var path = req.params[0];
 
-  fs.readFile('/home/pau/doc/' + path + '.md', function (e, c) {
+  fs.readFile(MOG_PATH + path + '.md', function (e, c) {
     if (e) {
       c = '\n';
     }
@@ -105,7 +106,7 @@ app.get('/update/*', function (req, res) {
 */
 app.post('/update/*', function (req, res) {
   var urlPath = req.params[0]
-    , filePath = '/home/pau/doc/' + urlPath + '.md'
+    , filePath = MOG_PATH + urlPath + '.md'
 
     , data = req.body.data.replace(/\r/g, '') + '\n';
 
