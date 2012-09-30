@@ -1,0 +1,24 @@
+!!!
+html(lang="es")
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    block stylesheets
+
+  body
+    #head.outer
+      .container
+        #title
+          h1= title
+        #breadcrumb !{breadcrumb}
+    #body
+      .container
+        #doc
+          block content
+    #footer.outer
+      .container
+        #breadcrumb !{breadcrumb}
+        #about
+          | &copy; 2012, 
+          a(href='http://github.com/paufraces') paufraces
+    block javascripts

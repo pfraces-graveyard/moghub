@@ -1,0 +1,11 @@
+mixin list(tree, path)
+  - path = path ? path : ''
+  ul
+    - for (node in tree)
+      if typeof(tree[node]) === 'object'
+        li
+          a(href = path + node)= node
+        mixin list(tree[node], path + node)
+      else
+        li
+          a(href = path + tree[node])= tree[node]

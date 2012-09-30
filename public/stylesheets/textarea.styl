@@ -1,0 +1,39 @@
+textarea,
+pre
+  margin: 0
+  padding: 0
+  outline: 0
+  border: 0
+
+.expandingArea
+  position: relative
+  border: 1px solid white
+
+.expandingArea > textarea
+.expandingArea > pre
+  font: 130% monospace
+  color: #666
+  white-space: pre-wrap
+  word-wrap: break-word
+
+.expandingArea > textarea
+  width: 100%
+  border: 0
+
+.expandingArea.active > textarea
+  overflow: hidden
+  position: absolute
+  top: 0
+  left: 0
+  height: 100%
+  resize: none
+
+.expandingArea > pre
+  display: none
+
+.expandingArea.active > pre
+  display: block
+  visibility: hidden
+
+#doc
+  padding: 30px 40px

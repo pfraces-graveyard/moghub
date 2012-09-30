@@ -1,0 +1,17 @@
+extends layout
+
+block stylesheets
+  link(rel='stylesheet', href='/stylesheets/textarea.css')
+
+block javascripts
+  script(src='/javascripts/textarea.js')
+  script(src='/javascripts/ui.js')
+
+block content
+  div(ondblclick='ui.save()')
+    form#editor
+      .expandingArea
+        pre
+          span
+          br
+        textarea(name='data') !{content}

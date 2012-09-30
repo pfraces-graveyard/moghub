@@ -1,0 +1,15 @@
+#doc h1 {
+  font-size: 2000%;
+  margin: 0;
+}
+#doc h2 {
+  color: #f00;
+  font-size: 200%;
+  margin: 0;
+  padding-bottom: 60px;
+}
+#doc h3 {
+  font-style: italic;
+  font: 150%;
+  text-align: center;
+}

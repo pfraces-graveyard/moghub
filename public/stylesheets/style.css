@@ -1,0 +1,48 @@
+body {
+  margin: 0;
+  padding: 0;
+  color: #666;
+}
+a:link,
+a:visited,
+a:active {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+code {
+  border: 1px solid #ccc;
+}
+.container {
+  width: 920px;
+  margin: 0 auto;
+}
+.outer {
+  background-color: #fff;
+  padding: 10px;
+}
+#title {
+  border-bottom: 1px solid;
+}
+#title h1 {
+  margin: 0;
+}
+#breadcrumb {
+  text-align: right;
+  font-style: italic;
+}
+#body {
+  background-color: #fff;
+  padding: 10px 0 20px;
+}
+#doc {
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 5px 5px 10px #aaa;
+  padding: 1px 40px 20px;
+}
+#about {
+  border-top: 1px solid;
+  padding: 5px;
+}

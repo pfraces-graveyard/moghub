@@ -1,0 +1,10 @@
+include lib/nestedlists
+extends layout
+
+block javascripts
+  script(src='/javascripts/ui.js')
+
+block content
+  h1= path
+  div(ondblclick='ui.edit()')
+    mixin list(content)
