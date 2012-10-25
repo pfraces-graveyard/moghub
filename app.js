@@ -5,7 +5,9 @@ var express = require('express')
   , doc = require('./lib/doc')
   , file = require('./lib/file');
 
-var MOG_PATH = process.env.MOG || process.env.HOME;
+var MOG_PATH = process.env.MOG_PATH || process.env.HOME
+  , MOG_NAME = process.env.MOG_NAME || 'wiki'
+
 var app = express();
 
 app.configure(function(){
@@ -27,8 +29,8 @@ app.configure('development', function(){
 
 app.get('/', function (req, res) {
   res.render('index', {
-    title: 'wiki',
-    breadcrumb: 'home'
+    title: MOG_NAME
+  , breadcrumb: 'home'
   });
 });
 
@@ -49,24 +51,24 @@ app.get('/read/*', function (req, res) {
       showExt: false
     }, function (err, results) {
       res.render('dir', {
-        title:'wiki',
-        breadcrumb: urlPath,
-        path: urlPath ? urlPath : '/',
-        content: results
+        title: MOG_NAME
+      , breadcrumb: urlPath
+      , path: urlPath ? urlPath : '/'
+      , content: results
       });
     });
   } else {
     doc.render(filePath, function (err, content) {
       if (err) {
         res.render('404', {
-          title: 'wiki',
-          breadcrumb: urlPath
+          title: MOG_NAME
+        , breadcrumb: urlPath
         });
       } else {
         res.render('read', {
-          title: 'wiki',
-          breadcrumb: urlPath,
-          content: content
+          title: MOG_NAME
+        , breadcrumb: urlPath
+        , content: content
         });
       }
     });
