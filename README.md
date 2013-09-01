@@ -17,16 +17,16 @@ Example:
 {
   "port": 7654,
   "mogs": {
-    "Dev Docs": {
-      "route": "/doc",
+    "doc": {
+      "title": "Dev Docs",
       "path": "~/doc"
     },
-    "Home Docs": {
-      "route": "/home",
+    "home": {
+      "title": "Home Docs",
       "path": "~/Desktop/Documents"
     },
-    "To-Do List": {
-      "route": "/todo",
+    "todo": {
+      "title": "To-Do List",
       "path": "~/todo"
     }
   }

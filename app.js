@@ -5,13 +5,11 @@ var express = require('express')
   , doc = require('./lib/doc')
   , file = require('./lib/file');
 
-var MOG_PATH = process.env.MOG_PATH || process.env.HOME
-  , MOG_NAME = process.env.MOG_NAME || 'wiki'
-
-var app = express();
+var config = JSON.parse(fs.readFileSync('/home/pau/.moghub.json')),
+    app = express();
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 3000);
+  app.set('port', config.port || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
@@ -23,13 +21,10 @@ app.configure(function(){
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
-app.configure('development', function(){
-  app.use(express.errorHandler());
-});
-
-app.get('/', function (req, res) {
+app.get('/:mog/', function (req, res) {
+  var mog = config.mogs[req.params.mog];
   res.render('index', {
-    title: MOG_NAME
+    title: mog.title
   , breadcrumb: 'home'
   });
 });
@@ -41,9 +36,10 @@ app.get('/', function (req, res) {
 *
 * Si no es un directorio, se esta pidiendo un archivo
 */
-app.get('/read/*', function (req, res) {
-  var urlPath = req.params[0]
-    , filePath = MOG_PATH + urlPath + '.md';
+app.get('/:mog/read/*', function (req, res) {
+  var mog = config.mogs[req.params.mog],
+      route = req.params[0],
+      filePath = mog.path + '/' + route + '.md';
 
   if (path.basename(filePath) === '.md') {
     file.walk(path.dirname(filePath), {
@@ -51,24 +47,24 @@ app.get('/read/*', function (req, res) {
       showExt: false
     }, function (err, results) {
       res.render('dir', {
-        title: MOG_NAME
-      , breadcrumb: urlPath
-      , path: urlPath ? urlPath : '/'
-      , content: results
+        title: mog.title,
+        breadcrumb: route,
+        path: route ? route : '/',
+        content: results
       });
     });
   } else {
     doc.render(filePath, function (err, content) {
       if (err) {
         res.render('404', {
-          title: MOG_NAME
-        , breadcrumb: urlPath
+          title: mog.title,
+          breadcrumb: route
         });
       } else {
         res.render('read', {
-          title: MOG_NAME
-        , breadcrumb: urlPath
-        , content: content
+          title: mog.title,
+          breadcrumb: route,
+          content: content
         });
       }
     });
@@ -81,20 +77,21 @@ app.get('/read/*', function (req, res) {
 *
 * Elimino salto de linea, eyecandy para el textarea
 */
-app.get('/update/*', function (req, res) {
-  var path = req.params[0];
+app.get('/:mog/update/*', function (req, res) {
+  var mog = config.mogs[req.params.mog],
+      route = req.params[0],
+      filePath = mog.path + '/' + route + '.md';
 
-  fs.readFile(MOG_PATH + path + '.md', function (e, c) {
-    if (e) {
-      c = '\n';
+  fs.readFile(filePath, function (err, data) {
+    if (err) {
+      data = '\n';
     }
 
     res.render('update', {
       title: 'wiki',
-      breadcrumb: path,
-      route: path,
-
-      content: c.slice(0, c.length - 1)
+      breadcrumb: route,
+      route: route,
+      content: data.slice(0, data.length - 1)
     });
   });
 });
@@ -106,11 +103,11 @@ app.get('/update/*', function (req, res) {
 * writeFile succeeds creating a new one if no directory creation is needed so,
 * create intermediate directories if needed before writing to file
 */
-app.post('/update/*', function (req, res) {
-  var urlPath = req.params[0]
-    , filePath = MOG_PATH + urlPath + '.md'
-
-    , data = req.body.data.replace(/\r/g, '') + '\n';
+app.post('/:mog/update/*', function (req, res) {
+  var mog = config.mogs[req.params.mog],
+      route = req.params[0],
+      filePath = mog.path + '/' + route + '.md',
+      data = req.body.data.replace(/\r/g, '') + '\n';
 
   fs.stat(path.dirname(filePath), function (err, stats) {
     if (err) {
@@ -124,10 +121,10 @@ app.post('/update/*', function (req, res) {
         console.log('saved: ' + filePath);
       }
     });
-    res.redirect('/read/' + urlPath);
+    res.redirect('/' + req.params.mog + '/read/' + route);
   });
 });
 
 http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+  console.log("listening on port " + app.get('port'));
 });
