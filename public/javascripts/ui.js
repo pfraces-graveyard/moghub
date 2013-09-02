@@ -1,7 +1,7 @@
 var ui = {
   edit: function () {
     document.location.replace(
-      document.location.pathname.replace(/^\/read\//, '/update/')
+      document.location.pathname.replace(/\/read\//, '/update/')
     );
   },
   save: function () {

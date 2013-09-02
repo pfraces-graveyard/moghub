@@ -88,7 +88,7 @@ app.get('/:mog/update/*', function (req, res) {
     }
 
     res.render('update', {
-      title: 'wiki',
+      title: mog.title,
       breadcrumb: route,
       route: route,
       content: data.slice(0, data.length - 1)
