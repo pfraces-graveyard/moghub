@@ -12,11 +12,7 @@ app.configure(function(){
   app.set('port', config.port || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
-  app.use(express.favicon());
-  app.use(express.logger('dev'));
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(app.router);
+  app.use(express.bodyParser()); // POST req.body object
   app.use(require('stylus').middleware(__dirname + '/public'));
   app.use(express.static(path.join(__dirname, 'public')));
 });
@@ -39,13 +35,13 @@ app.get('/:mog/', function (req, res) {
 app.get('/:mog/read/*', function (req, res) {
   var mog = config.mogs[req.params.mog],
       route = req.params[0],
-      filePath = mog.path + '/' + route + '.md';
+      filePath = mog.path + '/' + route + '.md',
+      listConf = { showHidden: false, showExt: false };
 
+  // refactor: si (es dir) ...
   if (path.basename(filePath) === '.md') {
-    file.walk(path.dirname(filePath), {
-      showHidden: false,
-      showExt: false
-    }, function (err, results) {
+
+    file.walk(path.dirname(filePath), listConf, function (err, results) {
       res.render('dir', {
         title: mog.title,
         breadcrumb: route,
