@@ -115,13 +115,13 @@ app.post('/:mog/update/*', function (req, res) {
     }
 
     fs.writeFile(filePath, data, function(err) {
-      if(err) {
+      if (err) {
         console.log(err);
       } else {
         console.log('saved: ' + filePath);
       }
+      res.redirect('/' + req.params.mog + '/read/' + route);
     });
-    res.redirect('/' + req.params.mog + '/read/' + route);
   });
 });
 
