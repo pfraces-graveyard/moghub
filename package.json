@@ -1,7 +1,7 @@
 {
+  "private": true,
   "name": "moghub",
   "description": "web interface for mogs",
-  "private": true,
   "dependencies": {
     "express": "*",
     "jade": "*",
